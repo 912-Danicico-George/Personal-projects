@@ -1,0 +1,3 @@
+Examples result for project 7 - Danicico George-Iulian 912
+
+The number of matrixes ( M8,8 in Z2 ) in reduced echelon form is: 417199

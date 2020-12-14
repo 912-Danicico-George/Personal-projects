@@ -8,9 +8,10 @@
 
 
 # This is the initialisation of the matrix
-def init_matrix():
-    M = int(input("Enter the number of rows: "))
-    N = int(input("Enter the number of columns: "))
+def init_matrix(sequence):
+    sequence = sequence.split(';')
+    M = int(sequence[0])
+    N = int(sequence[1])
     Matrix = []
     for i in range(M):
         appending_list = []
@@ -20,39 +21,16 @@ def init_matrix():
 
     return N, M, Matrix
 
-def print_solution(matrix, n, m, list_of_echelon_matrixes):
-    done = True
-    # the implementation below is to check if a matrix is indeed in a reduced echelon form
-    # if done will be True after the execution, the matrix is indeed in reduced echelon form
-    # otherwise, if done will be False it means that the matrix is not in reduced echelon form
-    for i in range(m):
-        previous_row_value = None
-        current_row_value = None
-        if i > 0:
-            for j in range(n):
-                if matrix[i - 1][j] == 1:
-                    if previous_row_value is None:
-                        previous_row_value = j
 
-                if matrix[i][j] == 1:
-                    if current_row_value is None:
-                        current_row_value = j
-                        for reverse_row in range(i):
-                            if matrix[reverse_row][j] == 1:
-                                done = False
+def print_solution(matrix, n, m, list_of_echelon_matrixes, file_out):
 
-                if previous_row_value is None and current_row_value is not None:
-                    done = False
-                if previous_row_value is not None and current_row_value is not None and previous_row_value >= current_row_value:
-                    done = False
-
-    # we append to the list of echelon matrixes a new matrix
-    if done is True:
-        list_of_echelon_matrixes.append(matrix)
+    list_of_echelon_matrixes.append(matrix)
+    if n <= 5 and m <= 5:
         for row in matrix:
-            print(row)
+            file_out.write(str(row) + "\n")
 
-        print('\n')
+        file_out.write('\n')
+
 
 def is_valid(matrix, n, k):
     """
@@ -69,6 +47,27 @@ def is_valid(matrix, n, k):
     if column == 0:
         if matrix[row][column] == 1:
             return False
+
+    previous_row = row - 1
+    previous_column = column
+
+    previous_row_value = None
+    current_row_value = None
+
+    for i in range(previous_column + 1):
+        if matrix[previous_row][i] == 1 and previous_row_value is None:
+            previous_row_value = i
+        if matrix[row][i] == 1 and current_row_value is None:
+            current_row_value = i
+            if previous_row_value is None:
+                return False
+            for reverse_row in range(row):
+                if matrix[reverse_row][i] == 1:
+                    return False
+
+        if previous_row_value is None and current_row_value is not None:
+            return False
+
     return True
 
 
@@ -90,23 +89,28 @@ Now we do a simple backtracking now
 """
 
 
-def backtracking(matrix, n, m, k, list_of_echelon_matrixes):
+def backtracking(matrix, n, m, k, list_of_echelon_matrixes, file_out):
     if is_solution(k, n, m):
-        print_solution(matrix, n, m, list_of_echelon_matrixes)
+        print_solution(matrix, n, m, list_of_echelon_matrixes, file_out)
     else:
         for i in range(2):
             row = k // n
             column = k % n if k % n != 0 else 0
             matrix[row][column] = i
             if is_valid(matrix, n, k):
-                backtracking(matrix, n, m, k + 1, list_of_echelon_matrixes)
+                backtracking(matrix, n, m, k + 1, list_of_echelon_matrixes, file_out)
                 matrix[row][column] = 0
 
 
+file_in = open("input.txt", 'r')
+file_out = open("output.txt", 'w')
+file_out.write("Examples result for project 7 - Danicico George-Iulian 912\n")
 
-n, m, matrix = init_matrix()
+lines = file_in.readlines()
+
+n, m, matrix = init_matrix(lines[0])
 list_of_echelon_matrixes = list()
-backtracking(matrix, n, m, 0, list_of_echelon_matrixes)
-print("\n")
-
-print(f" The number of matrixes ( M{m},{n} in Z2 ) in reduced echelon form is: {len(list_of_echelon_matrixes)}")
+backtracking(matrix, n, m, 0, list_of_echelon_matrixes, file_out)
+file_out.write("\n")
+file_out.write(
+    f"The number of matrixes ( M{m},{n} in Z2 ) in reduced echelon form is: {len(list_of_echelon_matrixes)}\n")
