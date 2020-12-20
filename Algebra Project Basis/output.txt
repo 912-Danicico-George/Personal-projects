@@ -1,0 +1,10 @@
+Project 6 Danicico George 912
+The number of 2 dimensional subspaces of the vector space Z2 ^ 3 over Z_2 is: 7
+A basis of each subspace is: 
+1. [[0, 0, 1], [0, 1, 0]]
+2. [[0, 0, 1], [1, 0, 0]]
+3. [[0, 0, 1], [1, 1, 0]]
+4. [[0, 1, 0], [1, 0, 0]]
+5. [[0, 1, 0], [1, 0, 1]]
+6. [[0, 1, 1], [1, 0, 0]]
+7. [[0, 1, 1], [1, 0, 1]]
