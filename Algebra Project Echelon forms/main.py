@@ -112,5 +112,4 @@ n, m, matrix = init_matrix(lines[0])
 list_of_echelon_matrixes = list()
 backtracking(matrix, n, m, 0, list_of_echelon_matrixes, file_out)
 file_out.write("\n")
-file_out.write(
-    f"The number of matrixes ( M{m},{n} in Z2 ) in reduced echelon form is: {len(list_of_echelon_matrixes)}\n")
+file_out.write( f"The number of matrixes ( M{m},{n} in Z2 ) in reduced echelon form is: {len(list_of_echelon_matrixes)}\n")
