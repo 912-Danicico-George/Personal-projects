@@ -2,7 +2,7 @@
 
 # Algebra Basis
 
-A small program in python that generates all the basises for the vector space Z2 ^ n over Z2.
+A small program in python that generates all the bases for the vector space Z2 ^ n over Z2.
 
 # Algebra Echelon Forms
 
